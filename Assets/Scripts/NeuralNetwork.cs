@@ -8,16 +8,19 @@ public class NeuralNetwork
     private float[] inputs;
     private float[] hidden;
     private float[] outputs;
-    private List<float[,]> weightsList;
+    public List<float[,]> WeightsList { get; private set; }
 
-    public NeuralNetwork(float[] inputs, int outSize, int hiddenSize)
+    public NeuralNetwork(int inSize, int hiddenSize, int outSize, bool shouldInit = false)
     {
-        this.inputs = inputs;
+        inputs = new float[inSize];
         hidden = new float[hiddenSize];
         outputs = new float[outSize];
-        weightsList = new List<float[,]>();
+        WeightsList = new List<float[,]>();
 
-        InitWeights();
+        if(shouldInit)
+        {
+            InitWeights();
+        }
     }
 
     float[,] InitLayerWeight(int sizeI, int sizeJ)
@@ -28,7 +31,7 @@ public class NeuralNetwork
         {
             for (int j = 0; j < sizeJ; j++)
             {
-                weights[i, j] = UnityEngine.Random.Range(0f, 1f);
+                weights[i, j] = UnityEngine.Random.Range(-1f, 1f);
             }
         }
 
@@ -44,7 +47,6 @@ public class NeuralNetwork
         {
             for (int i = 0; i < weights.GetLength(0); i++)
             {
-                Debug.Log(weights.GetLength(1) + " " + cells.Length);
                 multWeights[i, j] = weights[i, j] * cells[j];
             }
         }
@@ -75,23 +77,25 @@ public class NeuralNetwork
 
     public void InitWeights()
     {
-        weightsList.Add(InitLayerWeight(hidden.Length - 1, inputs.Length));
-        weightsList.Add(InitLayerWeight(outputs.Length, hidden.Length));
+        WeightsList.Add(InitLayerWeight(hidden.Length, inputs.Length));
+        WeightsList.Add(InitLayerWeight(outputs.Length, hidden.Length));
     }
 
-    public void Feed()
+    public float[] Feed(float[] _inputs)
     {
-        hidden = ApplyActivationFunction(MultiplyListMatrix(inputs, weightsList[0]));
-        for (int i = 0; i < hidden.Length; i++)
-        {
-            Debug.Log(hidden[i]);
-        }
-        outputs = ApplyActivationFunction(MultiplyListMatrix(hidden, weightsList[1]));
+        inputs = _inputs;
+
+        hidden = ApplyActivationFunction(MultiplyListMatrix(inputs, WeightsList[0]));
+        hidden[hidden.Length - 1] = 1;
+
+        outputs = ApplyActivationFunction(MultiplyListMatrix(hidden, WeightsList[1]));
+
+        return outputs;
     }
 
     public void DisplayWeights()
     {
-        foreach (float[,] weights in weightsList)
+        foreach (float[,] weights in WeightsList)
         {
             for (int i = 0; i < weights.GetLength(0); i++)
             {
@@ -105,4 +109,5 @@ public class NeuralNetwork
             }
         }
     }
+
 }
