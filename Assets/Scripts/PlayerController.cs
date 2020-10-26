@@ -10,10 +10,13 @@ public class PlayerController : MonoBehaviour
     public float yMovement;
     public float distanceWall { get; private set; }
     public float distanceHole { get; private set; }
-    private float distanceHoleX;
-    private float distanceHoleY;
-    private float velocityX;
-    private float velocityY;
+    public float distanceHoleX { get; private set; }
+    public float distanceHoleY { get; private set; }
+
+    private float boundXmin;
+    private float boundXmax;
+    private float boundYmin;
+    private float boundYmax;
     private Individual individual;
 
     public GameObject Wall;
@@ -23,6 +26,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         individual = GetComponent<Individual>();
+
+        boundXmin = (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2;
+        boundXmax = (NextWall.sizeScene / 2) + NextWall.sizeCell / 2;
+        boundYmin = (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2;
+        boundYmax = (NextWall.sizeScene / 2) + NextWall.sizeCell / 2;
     }
 
     private void Update() {
@@ -31,57 +39,25 @@ public class PlayerController : MonoBehaviour
 
         Vector3 freeCellPos = NextWall.cellsPosition[NextWall.indexHole];
 
-        // If the player reach the wall
-        //if (playerPos.z > wallPos.z) {
-        //    // If the player is in the free cell
-        //    if ((freeCellPos - transform.position).sqrMagnitude < (NextWall.transform.GetChild(0).localScale - transform.localScale).sqrMagnitude) {
-        //        //Destroy(NextWall.gameObject);
-        //        //nextWall = InstanciateWall();
-        //    }
-        //}
+        transform.position = transform.position + transform.right * Time.deltaTime * xMovement * NextWall.speed;
+        transform.position = transform.position + transform.up * Time.deltaTime * yMovement * NextWall.speed;
 
-        transform.position = transform.position + transform.right * Time.deltaTime * xMovement * 10f;
-        transform.position = transform.position + transform.up * Time.deltaTime * yMovement * 10f;
-
-        if (playerPos.x < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2) {
-            transform.position = new Vector3((NextWall.sizeScene / 2) + NextWall.sizeCell / 2, playerPos.y);
-        } else if (playerPos.x > (NextWall.sizeScene / 2) + NextWall.sizeCell) {
-            transform.position = new Vector3((-NextWall.sizeScene / 2) - NextWall.sizeCell / 2, playerPos.y);
+        if (playerPos.x < boundXmin) {
+            transform.position = new Vector3(boundXmax, playerPos.y);
+        } else if (playerPos.x > boundXmax) {
+            transform.position = new Vector3(boundXmin, playerPos.y);
         }
-        if (playerPos.y < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2) {
+        if (playerPos.y < boundYmin) {
             transform.position = new Vector3(playerPos.x, (NextWall.sizeScene / 2) + NextWall.sizeCell / 2);
-        } else if (playerPos.y > (NextWall.sizeScene / 2) + NextWall.sizeCell) {
+        } else if (playerPos.y > boundYmax) {
             transform.position = new Vector3(playerPos.x, (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2);
         }
-
-        /*if (playerPos.x < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
-        {
-             transform.position = new Vector3((-NextWall.sizeScene / 2) - NextWall.sizeCell / 2, playerPos.y);
-        }
-        else if (playerPos.x > (NextWall.sizeScene / 2) - NextWall.sizeCell)
-        {
-            transform.position = new Vector3((NextWall.sizeScene / 2) - NextWall.sizeCell / 2, playerPos.y);
-        }
-        if (playerPos.y < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
-        {
-            transform.position = new Vector3(playerPos.x, (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2);
-        }
-        else if (playerPos.y > (NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
-        {
-            transform.position = new Vector3(playerPos.x, (NextWall.sizeScene / 2) - NextWall.sizeCell / 2);
-        }*/
 
         distanceHoleX = Mathf.Abs(playerPos.x - freeCellPos.x);
         distanceHoleY = Mathf.Abs(playerPos.y - freeCellPos.y);
         distanceHole = Mathf.Sqrt((distanceHoleX * distanceHoleX) + (distanceHoleY * distanceHoleY));
-        distanceWall = (playerPos - wallPos).magnitude;
+        distanceWall = Mathf.Abs(playerPos.z - wallPos.z);
 
         individual.Fitness = 1f / distanceHole;
     }
-
-    /*public Wall InstanciateWall() {
-        GameObject g = Instantiate(Wall, new Vector3(0, 0, 10), Quaternion.identity);
-        Wall w = g.GetComponent<Wall>();
-        return w;
-    }*/
 }

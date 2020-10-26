@@ -125,7 +125,7 @@ public class GeneticAlgorithm : MonoBehaviour
             {
                 if(Random.Range(0f, 1f) <= mutateRate)
                 {
-                    crossedWeights[i, j] = weights1[i, j] + (weights2[i,j] * Random.Range(-0.5f, 0.5f));
+                    crossedWeights[i, j] = weights1[i, j] + (weights2[i,j] * Random.Range(-0.05f, 0.05f));
                 }
                 else
                 {

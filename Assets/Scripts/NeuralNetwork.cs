@@ -31,7 +31,7 @@ public class NeuralNetwork
         {
             for (int j = 0; j < sizeJ; j++)
             {
-                weights[i, j] = UnityEngine.Random.Range(-1f, 1f);
+                weights[i, j] = UnityEngine.Random.Range(-100f, 100f);
             }
         }
 

@@ -17,9 +17,12 @@ public class Individual : MonoBehaviour
         pc = GetComponent<PlayerController>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        float[] inputs = new float[] {pc.xMovement, pc.yMovement, pc.distanceWall, pc.distanceHole, 1f };
+        float[] inputs = new float[] { 
+            pc.xMovement, pc.yMovement, 
+            pc.distanceWall, pc.distanceHoleX, pc.distanceHoleY,
+            1f };
 
         float[] movements = NeuralNet.Feed(inputs);
         pc.xMovement = movements[0];
