@@ -43,7 +43,18 @@ public class PlayerController : MonoBehaviour
         transform.position = transform.position + transform.right * Time.deltaTime * xMovement * 10f;
         transform.position = transform.position + transform.up * Time.deltaTime * yMovement * 10f;
 
-        if (playerPos.x < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
+        if (playerPos.x < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2) {
+            transform.position = new Vector3((NextWall.sizeScene / 2) + NextWall.sizeCell / 2, playerPos.y);
+        } else if (playerPos.x > (NextWall.sizeScene / 2) + NextWall.sizeCell) {
+            transform.position = new Vector3((-NextWall.sizeScene / 2) - NextWall.sizeCell / 2, playerPos.y);
+        }
+        if (playerPos.y < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2) {
+            transform.position = new Vector3(playerPos.x, (NextWall.sizeScene / 2) + NextWall.sizeCell / 2);
+        } else if (playerPos.y > (NextWall.sizeScene / 2) + NextWall.sizeCell) {
+            transform.position = new Vector3(playerPos.x, (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2);
+        }
+
+        /*if (playerPos.x < (-NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
         {
              transform.position = new Vector3((-NextWall.sizeScene / 2) - NextWall.sizeCell / 2, playerPos.y);
         }
@@ -58,7 +69,7 @@ public class PlayerController : MonoBehaviour
         else if (playerPos.y > (NextWall.sizeScene / 2) - NextWall.sizeCell / 2)
         {
             transform.position = new Vector3(playerPos.x, (NextWall.sizeScene / 2) - NextWall.sizeCell / 2);
-        }
+        }*/
 
         distanceHoleX = Mathf.Abs(playerPos.x - freeCellPos.x);
         distanceHoleY = Mathf.Abs(playerPos.y - freeCellPos.y);
