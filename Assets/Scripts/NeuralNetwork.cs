@@ -8,7 +8,7 @@ public class NeuralNetwork
     private float[] inputs;
     private float[] hidden;
     private float[] outputs;
-    public List<float[,]> WeightsList { get; private set; }
+    public List<float[,]> WeightsList { get; set; }
 
     public NeuralNetwork(int inSize, int hiddenSize, int outSize, bool shouldInit = false)
     {

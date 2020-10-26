@@ -15,6 +15,6 @@ public class Individual : MonoBehaviour
 
     void FixedUpdate()
     {
-        NeuralNet.Feed(new float[5]);
+       NeuralNet.Feed(new float[5]);
     }
 }
