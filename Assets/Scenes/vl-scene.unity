@@ -331,9 +331,9 @@ MonoBehaviour:
     type: 3}
   individualsPerGen: 3000
   individualsToSelect: 300
-  mutateRate: 0.0001
+  mutateRate: 0.01
   inputSize: 6
-  hiddenSize: 20
+  hiddenSize: 30
   outsideSize: 2
 --- !u!4 &1320983606
 Transform:

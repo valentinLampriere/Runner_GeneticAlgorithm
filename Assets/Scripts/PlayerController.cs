@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
 
         Vector3 freeCellPos = NextWall.cellsPosition[NextWall.indexHole];
 
-        transform.position = transform.position + transform.right * Time.deltaTime * xMovement * NextWall.speed;
-        transform.position = transform.position + transform.up * Time.deltaTime * yMovement * NextWall.speed;
+        transform.position = transform.position + transform.right * Time.deltaTime * xMovement * NextWall.speed * 1.5f;
+        transform.position = transform.position + transform.up * Time.deltaTime * yMovement * NextWall.speed * 1.5f;
 
         if (playerPos.x < boundXmin) {
             transform.position = new Vector3(boundXmax, playerPos.y);
