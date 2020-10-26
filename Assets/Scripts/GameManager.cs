@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public Wall wall { get; set; }
     private GameObject gw;
 
-    void Start()
+    void Awake()
     {
         CreateWall();
     }
