@@ -9,8 +9,10 @@ public class Wall : MonoBehaviour {
     public GameObject wallTile;
 
     public float sizeScene = 10;
-    public int nbCellsWall = 16;
-    public PlayerController player;
+    public int nbCellsWall = 6;
+    public float sizeCell = 0;
+
+    public float speed;
 
     public int indexHole;
     public Dictionary<int, Vector2> cellsPosition;
@@ -19,7 +21,7 @@ public class Wall : MonoBehaviour {
     void Start() {
         int freeX = Random.Range(0, nbCellsWall);
         int freeY = Random.Range(0, nbCellsWall);
-
+        sizeCell = sizeScene / nbCellsWall;
 
         cellsPosition = new Dictionary<int, Vector2>();
 
@@ -37,17 +39,19 @@ public class Wall : MonoBehaviour {
                 cellsPosition.Add(index, cellPos);
 
                 if (i == freeX && j == freeY)
+                {
                     continue;
+                }
 
                 GameObject cell = Instantiate(wallTile, cellPos, Quaternion.identity, transform);
                 cell.name = (i + j * nbCellsWall).ToString();
-                cell.transform.localScale = new Vector3(sizeScene / nbCellsWall, sizeScene / nbCellsWall, cell.transform.localScale.z);
+                cell.transform.localScale = new Vector3(sizeCell, sizeCell, cell.transform.localScale.z);
 
             }
         }
     }
 
     void Update() {
-        transform.position = transform.position + Vector3.back * Time.deltaTime * player.speed;
+        transform.position = transform.position + Vector3.back * Time.deltaTime * speed;
     }
 }

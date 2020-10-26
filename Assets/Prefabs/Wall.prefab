@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallTile: {fileID: 4094123951440116197, guid: 376175cf6d9b60d4db639c4064eef6d1,
     type: 3}
-  sizeScene: 6
-  nbCellsWall: 4
-  player: {fileID: 0}
+  sizeScene: 10
+  nbCellsWall: 8
+  speed: 0
   indexHole: 0
