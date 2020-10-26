@@ -20,12 +20,13 @@ public class Wall : MonoBehaviour {
         int freeX = Random.Range(0, nbCellsWall);
         int freeY = Random.Range(0, nbCellsWall);
 
+
         cellsPosition = new Dictionary<int, Vector2>();
 
         indexHole = freeX + freeY * nbCellsWall;
 
         for (int i = 0; i < nbCellsWall; i++) {
-            for (int j = 0; j < nbCellsWall; j++) {
+            for (int j = 0; j< nbCellsWall; j++) {
                 int index = i + j * nbCellsWall;
 
                 float x = (sizeScene / nbCellsWall) * i;
