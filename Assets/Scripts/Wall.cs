@@ -15,7 +15,8 @@ public class Wall : MonoBehaviour {
     public float speed;
 
     public int indexHole;
-    public Dictionary<int, Vector2> cellsPosition;
+    public Vector3 freeCellPosition { get; set; }
+    private Dictionary<int, Vector2> cellsPosition;
 
     Color color;
     void Start() {
@@ -49,6 +50,7 @@ public class Wall : MonoBehaviour {
 
             }
         }
+        freeCellPosition = cellsPosition[indexHole];
     }
 
     void Update() {

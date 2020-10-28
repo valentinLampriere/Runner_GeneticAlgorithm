@@ -329,12 +329,13 @@ MonoBehaviour:
   manager: {fileID: 1320983607}
   playerPrefab: {fileID: 8598990210954018349, guid: 95a3e6b21b70da845a3f06816d1f3e7b,
     type: 3}
-  individualsPerGen: 3000
-  individualsToSelect: 300
+  individualsPerGen: 1000
+  individualsToSelect: 100
   mutateRate: 0.01
   inputSize: 6
   hiddenSize: 30
   outsideSize: 2
+  PlayersLeft: 0
 --- !u!4 &1320983606
 Transform:
   m_ObjectHideFlags: 0

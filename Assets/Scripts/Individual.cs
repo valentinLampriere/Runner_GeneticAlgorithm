@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Individual : MonoBehaviour
-{
-    public float Fitness { get; set; }
+public class Individual : MonoBehaviour {
+    public float Fitness;// { get; set; }
     public NeuralNetwork NeuralNet { get; set; }
 
-    private PlayerController pc;
+    public PlayerController pc { get; private set; }
+
+    public bool isDisable {get; set; }
 
     public void Initialize(NeuralNetwork nt)
     {
@@ -19,10 +20,13 @@ public class Individual : MonoBehaviour
 
     void Update()
     {
+        if (isDisable)
+            return;
+
         float[] inputs = new float[] { 
             pc.xMovement, pc.yMovement, 
             pc.distanceWall, pc.distanceHoleX, pc.distanceHoleY,
-            1f };
+            1f};
 
         float[] movements = NeuralNet.Feed(inputs);
         pc.xMovement = movements[0];

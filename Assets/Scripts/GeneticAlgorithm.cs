@@ -16,7 +16,8 @@ public class GeneticAlgorithm : MonoBehaviour
     [SerializeField] private int hiddenSize = 0;
     [SerializeField] private int outsideSize = 0;
 
-    public int PlayersLeft { get; set; }
+    public int PlayersLeft;// { get; set; }
+    private int activeIndividuals;
     private List<Individual> individuals;
     private int generations;
 
@@ -29,14 +30,38 @@ public class GeneticAlgorithm : MonoBehaviour
 
     void Update()
     {
-        if (manager.wall.transform.position.z <= 0)
-        {
+        if (manager.wall.transform.position.z <= 0) {
+            //List<Individual> newIndividuals = new List<Individual>();
+            for (int i = 0; i < individuals.Count; i++) {
+                if (!individuals[i].isDisable) {
+                    if (individuals[i].pc.IsInHole()) {
+                        individuals[i].pc.wallPassed++;
+                    } else {
+                        individuals[i].isDisable = true;
+                        individuals[i].gameObject.SetActive(false);
+                        PlayersLeft--;
+                    }
+                }
+                /*if (individuals[i].pc.IsInHole()) {
+                    //newIndividuals.Add(individuals[i]);
+                } else {
+                    individuals[i].isDisable = true;
+                    individuals[i].gameObject.SetActive(false);
+                    PlayersLeft--;
+                    //Destroy(individuals[i].gameObject);
+                }*/
+            }
+            //individuals = newIndividuals;
+
             manager.DestroyWall();
             manager.CreateWall();
-            CreateNextGen();
 
-            Debug.Log("----- GENERATION : " + generations);
-            generations++;
+
+            if (PlayersLeft <= 0) {
+                Debug.Log("----- GENERATION : " + generations);
+                CreateNextGen();
+                generations++;
+            }
         }
     }
 
@@ -45,8 +70,8 @@ public class GeneticAlgorithm : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         PlayerController pc = player.GetComponent<PlayerController>();
         Individual individual = player.GetComponent<Individual>();
-        pc.NextWall = manager.wall;
         pc.GA = this;
+        pc.manager = manager;
         individual.Initialize(net);
         individuals.Add(individual);
     }
